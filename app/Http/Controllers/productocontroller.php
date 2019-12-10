@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Producto;
 use Illuminate\Http\Request;
 
 class productocontroller extends Controller
@@ -13,7 +14,7 @@ class productocontroller extends Controller
      */
     public function index()
     {
-        return view('producto.index'[
+        return view('producto.index', [
             'productos'=>Producto::get()
         ]);
 
@@ -25,10 +26,10 @@ class productocontroller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Producto $producto)
     {
-        return view('producto.create'[
-            'producto'=>Producto::get()
+        return view('producto.create', [
+            'producto'=>new Producto
         ]);
     }
 
@@ -38,7 +39,7 @@ class productocontroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
        $fields=request()->validate([
 'nombre'=>'required',
@@ -46,7 +47,7 @@ class productocontroller extends Controller
 
        ]);
        Producto::create($fields);
-       return redirect()->route('prodcuto.index')->with('status','Registro exitoso.');
+       return redirect()->route('producto.index')->with('status','Registro exitoso.');
     }
 
     /**
@@ -68,8 +69,8 @@ class productocontroller extends Controller
      */
     public function edit(Producto $producto)
     {
-        return view('producto.edit'[
-            'producto'=>$producto:
+        return view('producto.edit', [
+            'producto'=>$producto
         ]);  
     }
 
@@ -80,16 +81,15 @@ class productocontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Producto $producto)
     {
         $fields=request()->validate([
             'nombre'=>'required',
             'cantidad'=>'required',
             
                    ]);
-                   Producto::update($fields);
-                   Producto::create($fields);
-                   return redirect()->route('prodcuto.index')->with('status','editado con exito.');  
+                   $producto->update($fields);
+                   return redirect()->route('producto.index')->with('status','editado con exito.');  
     }
 
     /**
