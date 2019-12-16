@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    
+@extends('layout.pantalla')
+@section('title','Pagina Principal')
+
+@section('contenido')
     
 <h1>
 <small class="text-muted">Registro formulario de ventas</small>
     </h1>
+
     <div class="container">
         <form class="form-group" method="POST" action="{{ route('venta.store') }}">
             @csrf
@@ -39,9 +34,6 @@
         </form>
     </div>
 
+    @endsection
 
 
-
-
-</body>
-</html>

@@ -20,7 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/pagina', 'paginaController@index')->name('pagina');
 
 Route::resource('producto', 'productocontroller')->names('producto')->middleware('auth');
 Route::resource('venta', 'VentaController')->names('venta')->middleware('auth');
+Route::resource('mision', 'MisionController')->names('mision')->middleware('auth');
 Auth::routes();

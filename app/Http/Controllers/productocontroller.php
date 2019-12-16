@@ -18,7 +18,6 @@ class productocontroller extends Controller
             'productos'=>Producto::get()
         ]);
 
-
     }
 
     /**
@@ -26,7 +25,7 @@ class productocontroller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Producto $producto)
+    public function create()
     {
         return view('producto.create', [
             'producto'=>new Producto
@@ -39,14 +38,30 @@ class productocontroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-       $fields=request()->validate([
-'nombre'=>'required',
-'cantidad'=>'required',
-
+       
+        $riot=new Producto;
+        $riot->nombre =$request->get('nombre');
+        $riot->descripcion =$request->get('descripcion');
+        $riot->precio =$request->get('precio');
+        $riot->cantidad =$request->get('cantidad');
+       
+        if ($request->hasFile('imagen')){
+            $files=$request->file('imagen');
+            $files->move(public_path().'/img/',$files->getClientOriginalName());
+               $riot->imagen=$files->getClientOriginalName();
+           }
+           $riot->save();
+    return redirect()->route('producto.index');
+    /*$fields=request()->validate([
+    'nombre'=>'required',
+    'descripcion'=>'required',
+    'precio'=>'required',
+    'cantidad'=>'required',
+    'imagen'=>'required',
        ]);
-       Producto::create($fields);
+       Producto::create($fields);*/
        return redirect()->route('producto.index')->with('status','Registro exitoso.');
     }
 
@@ -85,6 +100,8 @@ class productocontroller extends Controller
     {
         $fields=request()->validate([
             'nombre'=>'required',
+            'descripcion'=>'required',
+            'precio'=>'required',
             'cantidad'=>'required',
             
                    ]);
@@ -102,4 +119,6 @@ class productocontroller extends Controller
     {
         //
     }
+}
+
 }
